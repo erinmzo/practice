@@ -7,47 +7,96 @@
   </head>
   <body>
     <form>
-      <input id="message" value="" placeholder="입력" />
+      <input id="message" placeholder="입력" />
       <button id="btn-submit">제출</button>
     </form>
     <ul id="cont_list"></ul>
 
     <script>
-      const btnSubmit = document.querySelector("#btn-submit");
+      const btnSubmit = document.getElementById("btn-submit");
+      const contList = document.getElementById("cont_list");
+      const dataArray = [];
+
+      // 배열 렌더링
+      const renderData = () => {
+        contList.innerHTML = null;
+        const renderLi = dataArray.forEach((el) => {
+          contList.innerHTML += `<li><span id="comment">${el}</span><button id="delete">삭제</button><button id="edit">수정</button> </li>`;
+        });
+        //삭제 실행
+        const btnDelete = document.querySelectorAll("#delete");
+        btnDelete.forEach((item, index) => {
+          item.addEventListener("click", (event) => {
+            deleteFn(event, index);
+          });
+        });
+
+        //수정 실행
+        const btnEdit = document.querySelectorAll("#edit");
+        btnEdit.forEach((item, index) => {
+          item.addEventListener("click", (event) => {
+            editFn(event, index);
+          });
+        });
+      };
+
+      //생성함수
+      function createFn(event) {
+        event.preventDefault();
+        const message = document.getElementById("message");
+        const inputValue = message.value;
+        dataArray.push(inputValue);
+        message.value = null;
+        renderData();
+
+        //삭제 실행
+        const btnDelete = document.querySelectorAll("#delete");
+        btnDelete.forEach((item, index) => {
+          item.addEventListener("click", (event) => {
+            deleteFn(event, index);
+          });
+        });
+
+        //수정 실행
+        const btnEdit = document.querySelectorAll("#edit");
+        btnEdit.forEach((item, index) => {
+          item.addEventListener("click", (event) => {
+            editFn(event, index, inputValue);
+          });
+        });
+      }
+
+      //삭제함수
+      function deleteFn(event, index) {
+        dataArray.splice(index, 1);
+        renderData();
+      }
+
+      //수정함수
+      function editFn(event, index) {
+        const li = event.target.parentElement;
+        const span = li.firstChild.innerText;
+        const editInput = `
+              <input id="edit-value" type="text" value=${span} /><button id="btn-edit-submit">완료</button>
+            `;
+        event.target.parentElement.innerHTML = editInput;
+        const btnEditSubmit = document.getElementById("btn-edit-submit");
+        btnEditSubmit.addEventListener("click", (event) => {
+          editValueSubmit(event, index);
+        });
+      }
+
+      //수정된 내용 제출함수
+      function editValueSubmit(event, index) {
+        const newValue = document.getElementById("edit-value").value;
+        dataArray.splice(index, 1, newValue);
+        renderData();
+        console.log(dataArray);
+      }
 
       //생성
-      btnSubmit.addEventListener("click", function (event) {
-        event.preventDefault();
-        let inputValue = document.getElementById("message").value;
-        const contList = document.getElementById("cont_list");
-        const newLi = `<li>${inputValue} <button id="delete">삭제</button><button id="edit">수정</button> </li`;
-        contList.innerHTML += newLi;
-
-        //삭제
-        const btnDelete = document.querySelectorAll("#delete");
-        btnDelete.forEach((item) => {
-          item.addEventListener("click", function () {
-            const liIndex = item.parentNode;
-            liIndex.parentNode.removeChild(liIndex);
-          });
-        });
-
-        //수정
-        const btnEdit = document.querySelectorAll("#edit");
-        btnEdit.forEach((item) => {
-          item.addEventListener("click", function () {
-            const editInput = `
-              <input id="edit-value" type="text" value=${inputValue} /><button id="btn-edit-submit">완료</button>
-            `;
-            item.parentNode.innerHTML = editInput;
-            const btnEditSubmit = document.getElementById("btn-edit-submit");
-            btnEditSubmit.addEventListener("click", function () {
-              const newValue = document.getElementById("edit-value").value;
-              const liParent = btnEditSubmit.parentNode;
-              liParent.innerHTML = `<li>${newValue} <button id="delete">삭제</button><button id="edit">수정</button> </li`;
-            });
-          });
-        });
+      btnSubmit.addEventListener("click", (event) => {
+        createFn(event);
       });
     </script>
   </body>
