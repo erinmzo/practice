@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <input id="message" value="" placeholder="입력" />
+      <button id="btn-submit">제출</button>
+    </form>
+    <ul id="cont_list"></ul>
+
+    <script>
+      const btnSubmit = document.querySelector("#btn-submit");
+
+      //생성
+      btnSubmit.addEventListener("click", function (event) {
+        event.preventDefault();
+        let inputValue = document.getElementById("message").value;
+        const contList = document.getElementById("cont_list");
+        const newLi = `<li>${inputValue} <button id="delete">삭제</button><button id="edit">수정</button> </li`;
+        contList.innerHTML += newLi;
+
+        //삭제
+        const btnDelete = document.querySelectorAll("#delete");
+        btnDelete.forEach((item) => {
+          item.addEventListener("click", function () {
+            const liIndex = item.parentNode;
+            liIndex.parentNode.removeChild(liIndex);
+          });
+        });
+
+        //수정
+        const btnEdit = document.querySelectorAll("#edit");
+        btnEdit.forEach((item) => {
+          item.addEventListener("click", function () {
+            const editInput = `
+              <input id="edit-value" type="text" value=${inputValue} /><button id="btn-edit-submit">완료</button>
+            `;
+            item.parentNode.innerHTML = editInput;
+            const btnEditSubmit = document.getElementById("btn-edit-submit");
+            btnEditSubmit.addEventListener("click", function () {
+              const newValue = document.getElementById("edit-value").value;
+              const liParent = btnEditSubmit.parentNode;
+              liParent.innerHTML = `<li>${newValue} <button id="delete">삭제</button><button id="edit">수정</button> </li`;
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
