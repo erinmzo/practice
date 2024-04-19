@@ -18,7 +18,7 @@
       const dataArray = [];
 
       // 배열 렌더링
-      const renderData = () => {
+      function renderData() {
         contList.innerHTML = null;
         const renderLi = dataArray.forEach((el) => {
           contList.innerHTML += `<li><span id="comment">${el}</span><button id="delete">삭제</button><button id="edit">수정</button> </li>`;
@@ -38,7 +38,7 @@
             editFn(event, index);
           });
         });
-      };
+      }
 
       //생성함수
       function createFn(event) {
@@ -48,22 +48,6 @@
         dataArray.push(inputValue);
         message.value = null;
         renderData();
-
-        //삭제 실행
-        const btnDelete = document.querySelectorAll("#delete");
-        btnDelete.forEach((item, index) => {
-          item.addEventListener("click", (event) => {
-            deleteFn(event, index);
-          });
-        });
-
-        //수정 실행
-        const btnEdit = document.querySelectorAll("#edit");
-        btnEdit.forEach((item, index) => {
-          item.addEventListener("click", (event) => {
-            editFn(event, index, inputValue);
-          });
-        });
       }
 
       //삭제함수
