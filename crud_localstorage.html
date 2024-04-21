@@ -17,18 +17,20 @@
       const contList = document.getElementById("cont_list");
       const dataArray = [];
 
-      // 배열 렌더링
-      function renderData() {
+      function road() {
         contList.innerHTML = null;
-        const renderLi = dataArray.forEach((el) => {
+        const dataList = [
+          ...JSON.parse(window.localStorage.getItem("comment")),
+        ];
+        dataList.forEach((el) => {
           contList.innerHTML += `<li><span id="comment">${el}</span><button id="delete">삭제</button><button id="edit">수정</button> </li>`;
         });
 
         //삭제 실행
         const btnDelete = document.querySelectorAll("#delete");
         btnDelete.forEach((item, index) => {
-          item.addEventListener("click", (event) => {
-            deleteFn(event, index);
+          item.addEventListener("click", () => {
+            deleteFn(index, dataArray);
           });
         });
 
@@ -41,20 +43,24 @@
         });
       }
 
+      road();
+
       //생성함수
-      function createFn(event) {
+      function createFn(event, dataArray) {
         event.preventDefault();
         const message = document.getElementById("message");
         const inputValue = message.value;
         dataArray.push(inputValue);
+        window.localStorage.setItem(`comment`, JSON.stringify(dataArray));
         message.value = null;
-        renderData();
+        road();
       }
 
       //삭제함수
-      function deleteFn(event, index) {
+      function deleteFn(index, dataArray) {
         dataArray.splice(index, 1);
-        renderData();
+        window.localStorage.setItem(`comment`, JSON.stringify(dataArray));
+        road();
       }
 
       //수정함수
@@ -75,13 +81,13 @@
       function editValueSubmit(event, index) {
         const newValue = document.getElementById("edit-value").value;
         dataArray.splice(index, 1, newValue);
-        renderData();
-        console.log(dataArray);
+        window.localStorage.setItem(`comment`, JSON.stringify(dataArray));
+        road();
       }
 
       //생성
       btnSubmit.addEventListener("click", (event) => {
-        createFn(event);
+        createFn(event, dataArray);
       });
     </script>
   </body>
