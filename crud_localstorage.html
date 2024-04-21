@@ -45,6 +45,11 @@
 
       road();
 
+      //생성
+      btnSubmit.addEventListener("click", (event) => {
+        createFn(event, dataArray);
+      });
+
       //생성함수
       function createFn(event, dataArray) {
         event.preventDefault();
@@ -84,11 +89,6 @@
         window.localStorage.setItem(`comment`, JSON.stringify(dataArray));
         road();
       }
-
-      //생성
-      btnSubmit.addEventListener("click", (event) => {
-        createFn(event, dataArray);
-      });
     </script>
   </body>
 </html>
