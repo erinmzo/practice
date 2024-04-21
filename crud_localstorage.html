@@ -15,13 +15,12 @@
     <script>
       const btnSubmit = document.getElementById("btn-submit");
       const contList = document.getElementById("cont_list");
-      const dataArray = [];
+      const dataList = [];
 
-      function road() {
+      const road = () => {
         contList.innerHTML = null;
-        const dataList = [
-          ...JSON.parse(window.localStorage.getItem("comment")),
-        ];
+        const data = JSON.parse(window.localStorage.getItem("comment"));
+        const dataList = [...data];
         dataList.forEach((el) => {
           contList.innerHTML += `<li><span id="comment">${el}</span><button id="delete">삭제</button><button id="edit">수정</button> </li>`;
         });
@@ -30,7 +29,7 @@
         const btnDelete = document.querySelectorAll("#delete");
         btnDelete.forEach((item, index) => {
           item.addEventListener("click", () => {
-            deleteFn(index, dataArray);
+            deleteFn(index, dataList);
           });
         });
 
@@ -41,30 +40,30 @@
             editFn(event, index);
           });
         });
-      }
+      };
 
       road();
 
       //생성
       btnSubmit.addEventListener("click", (event) => {
-        createFn(event, dataArray);
+        createFn(event, dataList);
       });
 
       //생성함수
-      function createFn(event, dataArray) {
+      function createFn(event, dataList) {
         event.preventDefault();
         const message = document.getElementById("message");
         const inputValue = message.value;
-        dataArray.push(inputValue);
-        window.localStorage.setItem(`comment`, JSON.stringify(dataArray));
+        dataList.push(inputValue);
+        window.localStorage.setItem(`comment`, JSON.stringify(dataList));
         message.value = null;
         road();
       }
 
       //삭제함수
-      function deleteFn(index, dataArray) {
-        dataArray.splice(index, 1);
-        window.localStorage.setItem(`comment`, JSON.stringify(dataArray));
+      function deleteFn(index, dataList) {
+        dataList.splice(index, 1);
+        window.localStorage.setItem(`comment`, JSON.stringify(dataList));
         road();
       }
 
