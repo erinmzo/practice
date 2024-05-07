@@ -3,16 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Trendy Shop</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
-  <body></body>
-  <script>
-    function test(a) {
-      const abc = 10 + a;
-      return abc;
-    }
+  <body>
+    <header>
+      <div class="container">
+        <p>회원 가입을 원하시면 <a href="join.html">여기</a>를 클릭하세요.</p>
+        <nav>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Shop</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
-    const result = test(10);
-    console.log(result);
-  </script>
+    <section class="hero">
+      <div class="container">
+        <h2>Welcome to Trendy Shop</h2>
+        <p>Discover the latest fashion trends and shop with style!</p>
+        <a href="#" class="btn">Shop Now</a>
+      </div>
+    </section>
+
+    <section class="products">
+      <div class="container">
+        <h2>Featured Products</h2>
+        <div class="product">
+          <img src="product1.jpg" alt="Product 1" />
+          <h3>Product 1</h3>
+          <p>$50.00</p>
+          <a href="#" class="btn">Add to Cart</a>
+        </div>
+        <!-- More products can be added here -->
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2024 Trendy Shop</p>
+      </div>
+    </footer>
+  </body>
 </html>
